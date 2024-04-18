@@ -9,7 +9,7 @@ I build this starterkit to build skeleton app ready for Saas Development MVP
 - mail service : resend.com (you can use another but resend is pretty cool)
 
 @Author : Frederic Lossignol, Senior software dev & teacher.
-Feel free to talk with me on my <a href="">Linkin Profile</a>
+Feel free to talk with me on my <a href="https://www.linkedin.com/in/flossignol/">Linkedin Profile</a>
 
 ------------------------
 
