@@ -1,17 +1,12 @@
+## STARTERKIT SaaS App
+Based on nodeJS with Adonis Framework. 
+This is a role based app with 3 sections : 
+- user
+- admin
+- power admin
 
-
-## BACKEND ADONIS JS
-I build this starterkit to build skeleton app ready for Saas Development MVP
-### Stack
-- backend : Adonis JS
-- DB : SQL (but you ca go with Postgre if you want)
-- frontend : Angular (React & VueJs are in my todo)
-- mail service : resend.com (you can use another but resend is pretty cool)
-
-@Author : Frederic Lossignol, Senior software dev & teacher.
-Feel free to talk with me on my <a href="https://www.linkedin.com/in/flossignol/">Linkedin Profile</a>
-
-------------------------
+the auth system is build on OAT tokens. 
+Server keep tokens in DB and each token belongs to a user in DB
 
 ### Install dependencies
 `npm install`
@@ -30,13 +25,29 @@ in .env file, please provide your access data
 `npm run dev`
 
 ### test endpoints
+Now you can test API on postman or use endpoins in frontend app
 
--------------------
+GUEST
+| Method   | URL                                      | Description                              |
+| -------- | ---------------------------------------- | ---------------------------------------- |
+| `POST`    | `/auth/register`                        | user create a new account                |
+| `GET`   | `/auth/validate-account`                  | user validate his account                |
+| `POST`    | `/auth/login`                           | user login                               |
+| `POST`  | `/auth/remember-password`                 | user ask a new password                  |
+| `POST`   | `/auth/reset-password`                   | user set a new password                  |
+| `GET`    | `/auth/logout`                           | user logout                              |
 
-## FRONTEND ANGULAR
+USER
+| Method   | URL                                      | Description                              |
+| -------- | ---------------------------------------- | ---------------------------------------- |
+| `GET`    | `/me`                        | user create auth user ask his data                   |
 
-### Install dependencies
-`npm install`
-
-### Run app on localhost:4200
-`ng serve` 
+ADMIN
+| Method   | URL                                      | Description                              |
+| -------- | ---------------------------------------- | ---------------------------------------- |
+| `GET`    | `/admin/users`                           | admin can ask users list                 |
+| `GET`    | `/admin/users/:id`                       | admin can ask user detail                |
+| `POST`   | `/admin/users`                           | admin can create user                    |
+| `PUT`    | `/admin/users/:id`                       | admin can update user                    |
+| `DELETE` | `/admin/users/:id`                       | admin can delete user                    |
+| `POST`   | `/admin/users/:id/roles`                 | user ask a new passw                     |
