@@ -8,14 +8,22 @@ This is a role based app with 3 sections :
 the auth system is build on OAT tokens. 
 Server keep tokens in DB and each token belongs to a user in DB
 
+@Author : Frederic Lossignol, Senior software dev & teacher.
+Feel free to talk with me on my <a href="https://www.linkedin.com/in/flossignol/">Linkedin Profile</a>
+
+------------------------
+
 ### Install dependencies
 `npm install`
  
 ### install the DB
 Connect your SQL DB
 in .env file, please provide your access data
+
 `node ace migration:status`
+
 `node ace migration:run`
+
 `node ace migration:status`
 
 ### Seed the DB
