@@ -48,7 +48,7 @@ GUEST
 USER
 | Method   | URL                                      | Description                              |
 | -------- | ---------------------------------------- | ---------------------------------------- |
-| `GET`    | `/me`                        | user create auth user ask his data                   |
+| `GET`    | `/me`                                    | user can fetch his data                  |
 
 ADMIN
 | Method   | URL                                      | Description                              |
@@ -58,4 +58,4 @@ ADMIN
 | `POST`   | `/admin/users`                           | admin can create user                    |
 | `PUT`    | `/admin/users/:id`                       | admin can update user                    |
 | `DELETE` | `/admin/users/:id`                       | admin can delete user                    |
-| `POST`   | `/admin/users/:id/roles`                 | user ask a new passw                     |
+| `POST`   | `/admin/users/:id/roles`                 | admin can set roles of a user                   |
