@@ -15,6 +15,16 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * response to the client
    */
   async handle(error: any, ctx: HttpContext) {
+    console.log('error', error);
+
+    if (error instanceof vineErrors.E_VALIDATION_ERROR) {
+      return ctx
+        .response
+        .status(error.status)
+        .send({
+          message: error.messages[0].message
+        })
+    }
 
     /**
      * handle custom credentials user error 400

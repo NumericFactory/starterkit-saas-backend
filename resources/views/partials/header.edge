@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>{{title || 'StarterSaas'}}</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+    <div>
+        <!-- navigation -->
+        @include('partials/navigation')
+        <div class="lg:pl-72">
+            <!-- searchbar-->
+            @include('partials/searchbar')
+
+            <main class="pb-10">
+                <div class="px-4 sm:px-6 lg:px-8">
+                    <!-- PAGE CONTENT -->

@@ -6,6 +6,7 @@ import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import Role from './role.js'
 import type { ManyToMany } from '@adonisjs/lucid/types/relations'
+import Comment from './comment.js'
 
 
 
@@ -24,6 +25,12 @@ export default class User extends compose(BaseModel, AuthFinder) {
     pivotRelatedForeignKey: 'role_id'
   })
   declare roles: ManyToMany<typeof Role>
+
+  @manyToMany(() => Comment, {
+    pivotTable: 'comments',
+    pivotForeignKey: 'user_id'
+  })
+  declare comments: ManyToMany<typeof Comment>
 
   @column({ isPrimary: true })
   declare id: number

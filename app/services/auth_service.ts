@@ -45,7 +45,7 @@ export class AuthService {
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
             validatedAt: user.validatedAt,
-            roles: user.roles.map((role: Role) => role.id) as any
+            roles: user.roles.map((role: Role) => ({ id: role.id, title: role.title })) as any
         }
     }
 

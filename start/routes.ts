@@ -18,7 +18,7 @@ router.group(() => {
   router.post('/auth/login', [AuthController, 'login']);
   router.post('/auth/remember-password', [AuthController, 'rememberPassword']);
   router.post('/auth/reset-password', [AuthController, 'resetPassword']);
-  router.get('/auth/logout', [AuthController, 'logout']).use(middleware.auth({ guards: ['api'] })).as('user.logout')
+  // router.get('/auth/logout', [AuthController, 'logout']).use(middleware.auth({ guards: ['api'] })).as('user.logout')
 }).prefix('/api/v1')
 
 
@@ -28,6 +28,8 @@ router.group(() => {
  */
 router.group(() => {
   router.get('/me', [UserController, 'show']);
+  router.get('/movie/:id/comments', [UserController, 'getComments'])
+  router.post('/movie/:id/comments', [UserController, 'postComment'])
   // add more routes here
 })
   .prefix('/api/v1')
@@ -54,10 +56,33 @@ router.group(() => {
 })
   .prefix('/api/v1/admin')
   .middleware(middleware.auth({ guards: ['api'] }))
-  .middleware(middleware.authorize({ guards: [Role.poweradmin] }))
+// .middleware(middleware.authorize({ guards: [Role.poweradmin] }))
 
 
 // Home public route
 router.get('/', async () => {
   return `<h1>SaaS Airskill Auth System</h1><p>@airskill.fr ©2024</p>`
 })
+
+
+router.group(() => {
+  // admin auth
+  router.get('admin/register', [AdminController, 'viewRegisterAdmin']).as('admin.register')
+  router.post('admin/register', [AdminController, 'handleRegisterAdmin'])
+  router.get('admin/login', [AdminController, 'viewLoginAdmin']).as('admin.login')
+  router.post('admin/login', [AdminController, 'handleLoginAdmin'])
+})
+  .middleware(middleware.guest({ guards: ['web'] }))
+
+router.group(() => {
+  // admin routes
+  router.post('admin/logout', [AdminController, 'logout']).as('admin.logout')
+  router.get('/admin', [AdminController, 'home']).as('admin.home')
+  router.get('/admin/users', [AdminController, 'getUsers']).as('admin.users')
+  router.get('/admin/users/:id', [AdminController, 'getUser']).as('admin.user-edit')
+  router.get('/admin/roles', [AdminController, 'getRoles']).as('admin.roles')
+  router.get('/admin/roles/add', [AdminController, 'addRole']).as('admin.role-add')
+
+})
+  .middleware(middleware.auth({ guards: ['web'] }))
+  .middleware(middleware.authorize({ guards: [Role.poweradmin] }))

@@ -1,0 +1,56 @@
+<div class="bg-white p-8 bg-zinc-100">
+    <div class="md:flex md:items-center md:justify-between">
+        <div class="min-w-0 flex-1">
+
+
+            <h2
+                class="text-2xl/7 flex items-center gap-3 font-bold text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+                @if(backbutton===true)
+                <span>
+                    <a href="{{link || '#'}}"
+                       class="text-black hover:text-indigo-900">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="1.5"
+                             stroke="currentColor"
+                             class="size-6">
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                        </svg>
+                    </a>
+                </span>
+                @end
+                <span>{{title || 'Bienvenue'}}</span>
+            </h2>
+        </div>
+        <div class="mt-4 flex md:mt-0 md:ml-4">
+            {{-- <button type="button"
+                    class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50">
+                Edit
+            </button> --}}
+
+            @if(actions)
+            @each(action in actions)
+            @if(action.link)
+            <a href="{{action.link}}"
+               class="ml-3 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                {{action.name}}
+            </a>
+            @else
+            <button type="button"
+                    {{action.id
+                    ? 'id='
+                    +action.id
+                    : ''
+                    }}
+                    class="ml-3 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                {{action.name}}
+            </button>
+            @end
+            @end
+            @end
+        </div>
+    </div>
+</div>

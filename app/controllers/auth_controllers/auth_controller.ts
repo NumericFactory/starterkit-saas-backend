@@ -163,13 +163,13 @@ export default class AuthController {
      * role : logout user
      * @returns response
      */
-    async logout({ auth, response }: HttpContext) {
-        const user = auth.getUserOrFail()
-        const token = auth.user?.currentAccessToken.identifier
-        if (!token)
-            return response.status(400).send({ message: 'Token introuvable' })
-        await User.accessTokens.delete(user, token)
-        return response.status(200).send({ message: 'Vous êtes bien déconnecté(e)' })
-    }
+    // async logout({ auth, response }: HttpContext) {
+    //     const user = auth.getUserOrFail()
+    //     const token = auth.user?.currentAccessToken.identifier
+    //     if (!token)
+    //         return response.status(400).send({ message: 'Token introuvable' })
+    //     await User.accessTokens.delete(user, token)
+    //     return response.status(200).send({ message: 'Vous êtes bien déconnecté(e)' })
+    // }
 
 }

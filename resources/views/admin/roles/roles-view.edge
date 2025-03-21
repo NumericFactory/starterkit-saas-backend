@@ -1,0 +1,55 @@
+@let(title='Role')
+@include('partials/header')
+
+{{-- @include('partials/page-elements/heading') --}}
+@!component('components/heading', {
+title,
+actions:[{name:'Add',id:'edit', link:route('admin.role-add')}]
+})
+
+<div class="px-4 sm:px-6 lg:px-8">
+
+    <div class="-mx-4 mt-8 sm:-mx-0">
+        <table class="min-w-full divide-y divide-gray-300">
+            <thead>
+                <tr>
+                    <th scope="col"
+                        class="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                        #
+                    </th>
+                    <th scope="col"
+                        class="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                        Role
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+
+                @each(item in roles)
+                <tr>
+                    <td class="w-full max-w-0 py-4 pr-3 pl-4 font-bold text-gray-900 sm:w-auto sm:max-w-none sm:pl-0">
+                        {{item.id}}
+                    </td>
+
+                    <td class="w-full max-w-0 py-4 pr-3 pl-4 font-bold text-gray-900 sm:w-auto sm:max-w-none sm:pl-0">
+                        {{item.title}}
+                    </td>
+                    <td class="py-4 pr-4 pl-3 text-right font-medium sm:pr-0">
+                        <a href="#"
+                           class="text-indigo-600 hover:text-indigo-900">Edit
+                        </a>
+                    </td>
+                </tr>
+                @end
+                <!-- More people... -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+@include('partials/footer')

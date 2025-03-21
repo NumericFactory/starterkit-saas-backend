@@ -1,0 +1,77 @@
+@let(title='Users')
+@include('partials/header')
+
+{{-- @include('partials/page-elements/heading') --}}
+@!component('components/heading', { title })
+
+<div class="px-4 sm:px-6 lg:px-8">
+
+    <div class="-mx-4 mt-8 sm:-mx-0">
+        <table class="min-w-full divide-y divide-gray-300">
+            <thead>
+                <tr>
+                    <th scope="col"
+                        class="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                        Nom
+                    </th>
+                    <th scope="col"
+                        class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">
+                        Email
+                    </th>
+                    <th scope="col"
+                        class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                        Role
+                    </th>
+                    <th scope="col"
+                        class="relative py-3.5 pr-4 pl-3 sm:pr-0">
+                        <span class="sr-only">Edit</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+
+                @each(item in safeUsers)
+                <tr>
+                    <td class="w-full max-w-0 py-4 pr-3 pl-4 font-bold text-gray-900 sm:w-auto sm:max-w-none sm:pl-0">
+                        {{item.firstname}} {{item.lastname}}
+                        <dl class="font-normal lg:hidden">
+                            <dt class="sr-only sm:hidden">Email</dt>
+                            <dd class="mt-1 truncate text-gray-500 sm:hidden">{{item.email}}</dd>
+                            <dt class="sr-only sm:hidden">Role</dt>
+                            <dd class="mt-1 truncate text-gray-500 sm:hidden">{{item.role || 'à définir'}}</dd>
+                        </dl>
+                    </td>
+                    <td class="hidden px-3 py-4  text-gray-500 sm:table-cell">{{item.email}}</td>
+                    <td class="px-3 py-4 text-gray-500">
+                        @if(item.roles)
+                        @each(role in item.roles)
+                        <span title="role.id: {{role.id}}"
+                              class="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-yellow-600/20 ring-inset">
+                            {{role.title}}
+                        </span>
+                        @else
+                        set a role
+                        @end
+                        @end
+                    </td>
+                    <td class="py-4 pr-4 pl-3 text-right font-medium sm:pr-0">
+                        <a href="{{route('admin.user-edit', {id:item.id})}}"
+                           class="text-indigo-600 hover:text-indigo-900">Edit
+                            <span class="sr-only">,
+                                {{item.firstname}}{{item.lastname}}
+                            </span>
+                        </a>
+                    </td>
+                </tr>
+                @end
+                <!-- More people... -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+@include('partials/footer')

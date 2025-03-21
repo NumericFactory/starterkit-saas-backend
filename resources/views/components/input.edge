@@ -1,0 +1,23 @@
+{{-- variables : name / label / type / value --}}
+<div class="mb-3">
+    <label for="{{name}}"
+           class="block text-sm/6 font-medium text-gray-900">
+        {{label}}
+    </label>
+    <div class="mt-0.5">
+        <input type="{{type}}"
+               name="{{name}}"
+               id="{{name}}"
+               value="{{value || ''}}"
+               required
+               {{disabled
+               ? 'disabled'
+               : 'false'
+               }}
+               class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+    </div>
+
+    @if (errors && errors[name])
+    <div class="error text-red-600 mb-2">{{ errors[name].message }}</div>
+    @endif
+</div>

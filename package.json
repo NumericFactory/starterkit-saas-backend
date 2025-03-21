@@ -55,10 +55,14 @@
     "@adonisjs/cors": "^2.2.1",
     "@adonisjs/lucid": "^20.1.0",
     "@adonisjs/mail": "^9.2.1",
-    "@vinejs/vine": "^1.7.1",
+    "@adonisjs/session": "^7.5.1",
+    "@tailwindcss/vite": "^4.0.12",
+    "@vinejs/vine": "^3.0.0",
+    "edge.js": "^6.2.1",
     "luxon": "^3.4.4",
     "mysql2": "^3.9.3",
-    "reflect-metadata": "^0.2.1"
+    "reflect-metadata": "^0.2.1",
+    "tailwindcss": "^4.0.12"
   },
   "eslintConfig": {
     "extends": "@adonisjs/eslint-config/app"

@@ -7,23 +7,120 @@ import mail from '@adonisjs/mail/services/main'
 import { AuthService, SafeUserModelType } from '#services/auth_service'
 // validators
 import { setRolesValidator } from '#validators/set_role'
+import Role from '#models/role'
+import { registerAdminValidator } from '#validators/register_admin'
+import { loginUserValidator } from '#validators/login_user'
 
 export default class AdminController {
 
+    // Home admin view
+    async home({ view, auth }: HttpContext) {
+        auth.use('web')
+        return view.render('admin/home')
+    }
+    // Auth admin views (register, login)
+    async viewRegisterAdmin({ view }: HttpContext) {
+        return view.render('admin/auth/register')
+    }
+    async viewLoginAdmin({ view }: HttpContext) {
+        return view.render('admin/auth/login')
+    }
+
+    // POST handle register admin
+    async handleRegisterAdmin({ request, view, response }: HttpContext) {
+        try {
+            const payload = await request.validateUsing(registerAdminValidator)
+            await User.create(payload)
+            return response.redirect().toRoute('admin.home', { registersuccess: 'Registered successfully. Login with your credentials.' })
+        } catch (error) {
+            const errors = error.messages.reduce((acc: any, item: any) => {
+                acc[item.field] = item;
+                return acc;
+            }, {});
+            console.log(errors);
+            return view.render('admin/auth/register', { errors })
+        }
+    }
+
+    // POST handle login admin
+    async handleLoginAdmin({ request, view, auth, response }: HttpContext) {
+        try {
+            const { email, password } = await request.validateUsing(loginUserValidator)
+            const user = await User.verifyCredentials(email, password)
+            await user?.load('roles')
+            console.log(user);
+            auth.use('web').login(user)
+            return response.redirect().toRoute('admin.home')
+        } catch (error) {
+            console.log(error);
+            return view.render('admin/auth/login', { error })
+        }
+    }
+
+    // POST handle logout admin
+    async logout({ auth, response, session }: HttpContext) {
+        await auth.use('web').logout()
+        session.flash({ success: 'Déconnecté avec succès' })
+        return response.redirect().toRoute('admin.login')
+    }
+
+    async getUser({ view, params, response }: HttpContext) {
+        console.log('params : ', params);
+        const user = await User.find(params.id)
+        await user?.load('roles')
+        console.log('user : ', user);
+        const roles = await Role.all()
+        if (!user) return response.status(404).send({ message: 'Utilisateur introuvable' })
+        return view.render('admin/users/user-edit', { user, roles });
+
+    }
+
+    async addRole({ view }: HttpContext) {
+        console.log('add role');
+        return view.render('admin/roles/role-add');
+    }
+
+    // async storeRole({ request, response }: HttpContext) {
+    //     // const { role } = await request.validateUsing(createUserValidator)
+    //     // await Role.create({ name: role })
+    //     // return response.redirect().toRoute('admin.roles')
+    // }
+
+
+
+
+    /********* API ********* */
+    /*********************** */
 
     /**
-     * Route: GET api/v1/admin/users
+    * Route: GET /admin/roles
+    * Role : Admin
+    */
+    async getRoles({ view, response }: HttpContext) {
+        // const me = auth.user?.id;
+        const roles = await Role.all()
+        if (!roles || roles.length === 0)
+            return response.status(404).send({ message: 'Aucun rôle!' })
+
+        return view.render('admin/roles/roles-view', { roles })
+    }
+
+    /**
+     * Route: GET /admin/users
      * Role : Admin
      */
-    async getUsers({ auth, response }: HttpContext) {
-        const me = auth.user?.id;
+    async getUsers({ view, response }: HttpContext) {
+        // const me = auth.user?.id;
         const users = await (await User.query().preload('roles').orderBy('createdAt', 'desc'))
         if (!users || users.length === 0)
             return response.status(404).send({ message: 'Aucun utilisateur!' })
         const safeUsers: SafeUserModelType[] = users.map((user: any) => AuthService.getSafeUserData(user))
-        const safeUsersWithoutMe: SafeUserModelType[] = safeUsers.filter((user: SafeUserModelType) => user.id != me)
-        return response.status(200).send(safeUsersWithoutMe)
+        console.log('users : ', safeUsers);
+        return view.render('admin/users/users-view', { safeUsers })
+
     }
+
+
 
     /**
      * Route: POST api/v1/admin/users

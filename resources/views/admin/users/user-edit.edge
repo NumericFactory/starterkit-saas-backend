@@ -1,0 +1,66 @@
+@let(title='Edit User')
+@include('partials/header')
+
+@!component('components/heading', {
+title, backbutton:true, link:route('admin.users'),
+actions:[{name:'Edit',id:'edit'}]
+})
+
+
+<form action=""
+      method="post">
+    @!component('components/input', {
+    name:'firstname', label:'Prénom', type:'text', value: user.firstname, errors,disabled:true
+    })
+    @!component('components/input', {
+    name:'lastname', label:'Nom', type:'text', value: user.lastname, errors,
+    disabled:true
+    })
+    @!component('components/input', {
+    name:'phone', label:'Mobile', type:'text', value: user.phone, errors, disabled:true
+    })
+    @!component('components/input', {
+    name:'email', label:'Email', type:'email', value: user.email, errors, disabled:true
+    })
+
+    <div class="mt-4">
+        <label for="roles"
+               class="block text-sm/6 font-medium text-gray-700">
+            Roles
+        </label>
+        @each(role in roles)
+        <div class="flex items-center">
+            <input type="checkbox"
+                   name="roles[]"
+                   id="role-{{role.id}}"
+                   value="{{role.id}}"
+                   class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
+                   {{
+                   user.roles.find(r=> r.id === role.id) ? 'checked':'' }} >
+            <label for="role-{{role.id}}"
+                   class="ml-2 block text-sm/6 text-gray-900">
+                {{role.title}}
+            </label>
+        </div>
+        @end
+    </div>
+
+    <div class="mt-4">
+        <button type="submit"
+                class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            Validate
+        </button>
+    </div>
+
+</form>
+
+<script>
+    document.getElementById('edit').addEventListener('click', function () {
+        this.setAttribute('disabled', 'disabled');
+        document.querySelectorAll('input').forEach(function (input) {
+            input.removeAttribute('disabled');
+        });
+    });
+</script>
+
+@include('partials/footer')
